@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Afaq Data Intelligence | آفاق لحلول البيانات والذكاء الاصطناعي</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===== CSS VARIABLES ===== */
+:root {
+  --green-dark: #0d3b2e;
+  --green-mid: #155740;
+  --green-light: #1e7a55;
+  --gold: #c9a84c;
+  --gold-light: #e8c97a;
+  --white: #ffffff;
+  --off-white: #f5f7f4;
+  --gray-light: #e8ede8;
+  --gray-mid: #8a9e8a;
+  --text-dark: #0d1f17;
+  --text-muted: #4a6050;
+  --font-ar: 'Cairo', sans-serif;
+  --font-en: 'Inter', sans-serif;
+  --radius: 12px;
+  --shadow: 0 4px 24px rgba(13,59,46,0.10);
+  --shadow-hover: 0 8px 40px rgba(13,59,46,0.18);
+  --transition: 0.3s ease;
+}
+
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-ar);
+  background: var(--white);
+  color: var(--text-dark);
+  direction: rtl;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+body.en {
+  font-family: var(--font-en);
+  direction: ltr;
+}
+
+/* ===== LANGUAGE TOGGLE ===== */
+.lang-toggle {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 1000;
+  display: flex;
+  gap: 0;
+  background: rgba(13,59,46,0.9);
+  border-radius: 30px;
+  padding: 4px;
+  backdrop-filter: blur(8px);
+}
+
+body.en .lang-toggle { left: auto; right: 16px; }
+
+.lang-btn {
+  padding: 6px 16px;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.65);
+  font-family: var(--font-ar);
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.lang-btn.active {
+  background: var(--gold);
+  color: var(--green-dark);
+}
+
+/* ===== NAVBAR ===== */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 999;
+  background: rgba(13,59,46,0.97);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+  padding: 0 32px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+.nav-logo-icon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 900; color: var(--green-dark);
+}
+.nav-logo-text {
+  color: var(--white);
+  font-size: 16px; font-weight: 700;
+  letter-spacing: 0.3px;
+}
+.nav-logo-text span { color: var(--gold); }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+}
+.nav-links a {
+  color: rgba(255,255,255,0.78);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+.nav-links a:hover { color: var(--gold); background: rgba(201,168,76,0.1); }
+
+.nav-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--white);
+  cursor: pointer;
+  padding: 6px;
+  flex-direction: column;
+  gap: 5px;
+}
+.nav-menu-btn span {
+  display: block;
+  width: 24px; height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: var(--transition);
+}
+
+/* Mobile Nav */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  top: 64px; left: 0; right: 0;
+  background: rgba(13,59,46,0.98);
+  z-index: 998;
+  padding: 16px;
+  flex-direction: column;
+  gap: 4px;
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+}
+.mobile-nav.open { display: flex; }
+.mobile-nav a {
+  color: rgba(255,255,255,0.82);
+  text-decoration: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  transition: var(--transition);
+}
+.mobile-nav a:hover { background: rgba(201,168,76,0.1); color: var(--gold); }
+
+/* ===== SECTIONS BASE ===== */
+section { padding: 80px 0; }
+.container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+
+.section-label {
+  display: inline-block;
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.section-title {
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--green-dark);
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+.section-subtitle {
+  font-size: 17px;
+  color: var(--text-muted);
+  max-width: 600px;
+  line-height: 1.8;
+}
+
+/* ===== HERO ===== */
+#home {
+  min-height: 100vh;
+  background: linear-gradient(140deg, var(--green-dark) 0%, #0a2e1f 45%, #072418 100%);
+  display: flex;
+  align-items: center;
+  padding-top: 64px;
+  position: relative;
+  overflow: hidden;
+}
+#home::before {
+  content: '';
+  position: absolute;
+  top: -20%; right: -10%;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 65%);
+  pointer-events: none;
+}
+#home::after {
+  content: '';
+  position: absolute;
+  bottom: -10%; left: -5%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(30,122,85,0.18) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative; z-index: 1;
+  max-width: 760px;
+}
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.3);
+  color: var(--gold-light);
+  padding: 7px 16px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+.hero-tag::before { content: ''; width: 7px; height: 7px; background: var(--gold); border-radius: 50%; }
+.hero-title {
+  font-size: 54px;
+  font-weight: 900;
+  color: var(--white);
+  line-height: 1.25;
+  margin-bottom: 20px;
+}
+.hero-title .accent { color: var(--gold); }
+.hero-text {
+  font-size: 18px;
+  color: rgba(255,255,255,0.72);
+  line-height: 1.85;
+  margin-bottom: 36px;
+  max-width: 580px;
+}
+.hero-btns {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--green-dark);
+  padding: 14px 32px;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: var(--transition);
+  box-shadow: 0 4px 20px rgba(201,168,76,0.35);
+  border: none;
+  cursor: pointer;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(201,168,76,0.45); }
+.btn-outline {
+  background: transparent;
+  color: var(--white);
+  padding: 13px 32px;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  transition: var(--transition);
+  cursor: pointer;
+}
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.06); }
+
+/* Hero stats */
+.hero-stats {
+  display: flex;
+  gap: 40px;
+  margin-top: 52px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  flex-wrap: wrap;
+}
+.hero-stat-num {
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+}
+.hero-stat-label {
+  font-size: 13px;
+  color: rgba(255,255,255,0.55);
+  margin-top: 4px;
+}
+
+/* ===== PROBLEM ===== */
+#problem { background: var(--off-white); }
+.problem-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 40px;
+}
+.problem-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 24px;
+  border: 1px solid var(--gray-light);
+  transition: var(--transition);
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.problem-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-3px); }
+.problem-icon {
+  width: 40px; height: 40px; min-width: 40px;
+  background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.problem-text { font-size: 15px; font-weight: 600; color: var(--text-dark); }
+
+/* ===== SOLUTION ===== */
+#solution { background: var(--white); }
+.solution-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  margin-top: 40px;
+}
+.solution-points { display: flex; flex-direction: column; gap: 14px; }
+.solution-point {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+.solution-point::before {
+  content: '';
+  width: 22px; height: 22px; min-width: 22px;
+  background: linear-gradient(135deg, var(--green-light), var(--green-mid));
+  border-radius: 50%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  background-size: 12px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.solution-visual {
+  background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+  border-radius: 20px;
+  padding: 40px;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.solution-visual::before {
+  content: '';
+  position: absolute;
+  top: -30%; right: -20%;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(201,168,76,0.15) 0%, transparent 60%);
+}
+.solution-metric {
+  background: rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.solution-metric-label { color: rgba(255,255,255,0.7); font-size: 13px; }
+.solution-metric-value { color: var(--gold); font-weight: 700; font-size: 18px; }
+
+/* ===== SERVICES ===== */
+#services { background: var(--off-white); }
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 40px;
+}
+.service-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  border: 1px solid var(--gray-light);
+  transition: var(--transition);
+  cursor: default;
+}
+.service-card:hover {
+  border-color: var(--gold);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-4px);
+}
+.service-card-icon {
+  font-size: 28px;
+  margin-bottom: 12px;
+  display: block;
+}
+.service-card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--green-dark);
+  line-height: 1.4;
+}
+
+/* ===== SECTORS ===== */
+#sectors { background: var(--white); }
+.sectors-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 40px;
+}
+.sector-card {
+  background: var(--off-white);
+  border-radius: 10px;
+  padding: 18px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--gray-light);
+  transition: var(--transition);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+.sector-card:hover {
+  background: var(--green-dark);
+  color: var(--white);
+  border-color: var(--green-dark);
+  transform: translateY(-2px);
+}
+.sector-card:hover .sector-icon { filter: grayscale(0) brightness(2); }
+.sector-icon { font-size: 20px; }
+
+/* ===== BENEFITS ===== */
+#benefits { background: linear-gradient(135deg, var(--green-dark), #0a2e1f); }
+#benefits .section-title { color: var(--white); }
+#benefits .section-label { color: var(--gold-light); }
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-top: 40px;
+}
+.benefit-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: var(--radius);
+  padding: 24px 18px;
+  text-align: center;
+  transition: var(--transition);
+}
+.benefit-card:hover {
+  background: rgba(201,168,76,0.1);
+  border-color: var(--gold);
+  transform: translateY(-3px);
+}
+.benefit-icon { font-size: 30px; margin-bottom: 10px; display: block; }
+.benefit-text { color: rgba(255,255,255,0.85); font-size: 13px; font-weight: 600; line-height: 1.5; }
+
+/* ===== HOW WE WORK ===== */
+#process { background: var(--off-white); }
+.process-steps {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-top: 48px;
+  position: relative;
+}
+.process-step {
+  text-align: center;
+  position: relative;
+}
+.step-num {
+  width: 52px; height: 52px;
+  background: linear-gradient(135deg, var(--green-light), var(--green-mid));
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--white);
+  font-size: 20px;
+  font-weight: 900;
+  margin: 0 auto 16px;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 4px 16px rgba(21,87,64,0.35);
+}
+.step-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--green-dark);
+  margin-bottom: 8px;
+}
+.step-text {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ===== BUSINESS MODEL ===== */
+#model { background: var(--white); }
+.model-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 40px;
+}
+.model-card {
+  background: var(--off-white);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  border-right: 4px solid var(--gold);
+  transition: var(--transition);
+}
+body.en .model-card { border-right: none; border-left: 4px solid var(--gold); }
+.model-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+.model-card-title { font-size: 16px; font-weight: 700; color: var(--green-dark); margin-bottom: 6px; }
+.model-card-text { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+
+/* ===== SAUDI PARTNERSHIP ===== */
+#partnership { background: var(--off-white); }
+.partnership-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  margin-top: 40px;
+}
+.partnership-points { display: flex; flex-direction: column; gap: 12px; }
+.partner-point {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  color: var(--text-dark);
+  font-weight: 500;
+  padding: 12px 16px;
+  background: var(--white);
+  border-radius: 10px;
+  border: 1px solid var(--gray-light);
+}
+.partner-point-dot {
+  width: 8px; height: 8px; min-width: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+/* ===== REGISTER AS EXPERT ===== */
+#register { background: linear-gradient(135deg, var(--green-dark), #0a2e1f); }
+#register .section-title { color: var(--white); }
+#register .section-label { color: var(--gold-light); }
+#register .section-subtitle { color: rgba(255,255,255,0.72); max-width: 700px; }
+.register-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 40px;
+}
+.register-areas {
+  background: rgba(255,255,255,0.06);
+  border-radius: var(--radius);
+  padding: 28px;
+  border: 1px solid rgba(201,168,76,0.2);
+}
+.register-areas-title {
+  color: var(--gold);
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.register-area-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255,255,255,0.8);
+  font-size: 14px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.register-area-item:last-child { border-bottom: none; }
+.register-area-item::before {
+  content: '';
+  width: 6px; height: 6px; min-width: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+}
+.register-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.register-fields {
+  background: rgba(255,255,255,0.06);
+  border-radius: var(--radius);
+  padding: 28px;
+  border: 1px solid rgba(201,168,76,0.2);
+  margin-bottom: 20px;
+}
+.register-fields-title {
+  color: var(--gold);
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.register-field-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255,255,255,0.8);
+  font-size: 14px;
+  padding: 6px 0;
+}
+.register-field-item::before {
+  content: '✦';
+  color: var(--gold);
+  font-size: 10px;
+  min-width: 14px;
+}
+.register-cta {
+  text-align: center;
+}
+
+/* ===== CONTACT ===== */
+#contact { background: var(--off-white); }
+.contact-box {
+  max-width: 640px;
+  margin: 40px auto 0;
+  background: var(--white);
+  border-radius: 20px;
+  padding: 52px 48px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--gray-light);
+}
+.contact-email {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--off-white);
+  border: 1px solid var(--gray-light);
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 15px;
+  color: var(--green-dark);
+  font-weight: 600;
+  margin: 20px 0 28px;
+  text-decoration: none;
+  word-break: break-all;
+}
+.contact-email:hover { border-color: var(--gold); color: var(--gold-light); }
+
+/* ===== FOOTER ===== */
+footer {
+  background: var(--green-dark);
+  color: rgba(255,255,255,0.55);
+  text-align: center;
+  padding: 24px;
+  font-size: 13px;
+}
+footer span { color: var(--gold); }
+
+/* ===== SCROLL ANIMATION ===== */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1100px) {
+  .cards-grid, .sectors-grid { grid-template-columns: repeat(3, 1fr); }
+  .benefits-grid { grid-template-columns: repeat(3, 1fr); }
+  .process-steps { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .hero-title { font-size: 44px; }
+}
+
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .nav-menu-btn { display: flex; }
+  .solution-layout, .partnership-layout, .register-grid { grid-template-columns: 1fr; gap: 30px; }
+  .cards-grid { grid-template-columns: repeat(2, 1fr); }
+  .sectors-grid { grid-template-columns: repeat(2, 1fr); }
+  .benefits-grid { grid-template-columns: repeat(2, 1fr); }
+  .process-steps { grid-template-columns: repeat(2, 1fr); }
+  .model-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero-title { font-size: 36px; }
+  .hero-stats { gap: 24px; }
+  .contact-box { padding: 36px 28px; }
+}
+
+@media (max-width: 600px) {
+  nav { padding: 0 16px; }
+  section { padding: 60px 0; }
+  .section-title { font-size: 28px; }
+  .hero-title { font-size: 28px; }
+  .hero-text { font-size: 16px; }
+  .hero-btns { flex-direction: column; }
+  .btn-primary, .btn-outline { text-align: center; }
+  .hero-stats { gap: 20px; }
+  .hero-stat-num { font-size: 28px; }
+  .problem-grid { grid-template-columns: 1fr; }
+  .cards-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .sectors-grid { grid-template-columns: 1fr 1fr; }
+  .benefits-grid { grid-template-columns: 1fr 1fr; }
+  .process-steps { grid-template-columns: 1fr; gap: 20px; }
+  .model-grid { grid-template-columns: 1fr; }
+  .register-grid { grid-template-columns: 1fr; }
+  .contact-box { padding: 28px 20px; }
+  .lang-toggle { top: 10px; left: 10px; }
+  body.en .lang-toggle { right: 10px; left: auto; }
+}
+
+@media (max-width: 380px) {
+  .cards-grid { grid-template-columns: 1fr; }
+  .sectors-grid { grid-template-columns: 1fr; }
+  .benefits-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- Language Toggle -->
+<div class="lang-toggle">
+  <button class="lang-btn active" onclick="setLang('ar')" id="btn-ar">العربية</button>
+  <button class="lang-btn" onclick="setLang('en')" id="btn-en">English</button>
+</div>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="#home" class="nav-logo">
+    <div class="nav-logo-icon">A</div>
+    <div class="nav-logo-text"><span>Afaq</span> Data</div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#home" data-ar="الرئيسية" data-en="Home">الرئيسية</a></li>
+    <li><a href="#problem" data-ar="المشكلة" data-en="Problem">المشكلة</a></li>
+    <li><a href="#solution" data-ar="الحل" data-en="Solution">الحل</a></li>
+    <li><a href="#services" data-ar="الخدمات" data-en="Services">الخدمات</a></li>
+    <li><a href="#sectors" data-ar="القطاعات" data-en="Sectors">القطاعات</a></li>
+    <li><a href="#benefits" data-ar="المنفعة" data-en="Benefits">المنفعة</a></li>
+    <li><a href="#process" data-ar="طريقة العمل" data-en="Process">طريقة العمل</a></li>
+    <li><a href="#register" data-ar="سجّل كخبير" data-en="Expert">سجّل كخبير</a></li>
+    <li><a href="#contact" data-ar="التواصل" data-en="Contact">التواصل</a></li>
+  </ul>
+  <button class="nav-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobile-nav">
+  <a href="#home" onclick="closeMobileMenu()" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+  <a href="#problem" onclick="closeMobileMenu()" data-ar="المشكلة" data-en="Problem">المشكلة</a>
+  <a href="#solution" onclick="closeMobileMenu()" data-ar="الحل" data-en="Solution">الحل</a>
+  <a href="#services" onclick="closeMobileMenu()" data-ar="الخدمات" data-en="Services">الخدمات</a>
+  <a href="#sectors" onclick="closeMobileMenu()" data-ar="القطاعات" data-en="Sectors">القطاعات</a>
+  <a href="#benefits" onclick="closeMobileMenu()" data-ar="المنفعة" data-en="Benefits">المنفعة</a>
+  <a href="#process" onclick="closeMobileMenu()" data-ar="طريقة العمل" data-en="Process">طريقة العمل</a>
+  <a href="#register" onclick="closeMobileMenu()" data-ar="سجّل كخبير" data-en="Register as Expert">سجّل كخبير</a>
+  <a href="#contact" onclick="closeMobileMenu()" data-ar="التواصل" data-en="Contact">التواصل</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<section id="home">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-tag" data-ar="شركة مصرية سعودية | بيانات · ذكاء اصطناعي · ذكاء أعمال" data-en="Egyptian-Saudi Company | Data · AI · Business Intelligence">
+        شركة مصرية سعودية | بيانات · ذكاء اصطناعي · ذكاء أعمال
+      </div>
+      <h1 class="hero-title">
+        <span data-ar="نحوّل بيانات شركتك إلى <span class='accent'>قرارات أسرع</span> وأرباح أعلى" data-en="We Turn Your Business Data into <span class='accent'>Faster Decisions</span> and Higher Profits">
+          نحوّل بيانات شركتك إلى <span class="accent">قرارات أسرع</span> وأرباح أعلى
+        </span>
+      </h1>
+      <p class="hero-text" data-ar="حلول بيانات وذكاء اصطناعي وذكاء أعمال تساعد الشركات على تنظيم البيانات، تحليلها، وبناء مؤشرات أداء واضحة تدعم النمو وتقليل المخاطر." data-en="Data, AI, and business intelligence solutions that help companies organize, analyze, and transform their data into clear performance indicators that support growth and reduce risks.">
+        حلول بيانات وذكاء اصطناعي وذكاء أعمال تساعد الشركات على تنظيم البيانات، تحليلها، وبناء مؤشرات أداء واضحة تدعم النمو وتقليل المخاطر.
+      </p>
+      <div class="hero-btns">
+        <a href="#contact" class="btn-primary" data-ar="اطلب عرضًا تجريبيًا" data-en="Request a Demo">اطلب عرضًا تجريبيًا</a>
+        <a href="#services" class="btn-outline" data-ar="تعرف على خدماتنا" data-en="Explore Our Services">تعرف على خدماتنا</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">+13</div>
+          <div class="hero-stat-label" data-ar="قطاع مستهدف" data-en="Target Sectors">قطاع مستهدف</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">+10</div>
+          <div class="hero-stat-label" data-ar="خدمة متكاملة" data-en="Integrated Services">خدمة متكاملة</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">2</div>
+          <div class="hero-stat-label" data-ar="سوق: مصر والسعودية" data-en="Markets: Egypt & Saudi">سوق: مصر والسعودية</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROBLEM ===== -->
+<section id="problem">
+  <div class="container">
+    <span class="section-label" data-ar="التحدي" data-en="The Challenge">التحدي</span>
+    <h2 class="section-title" data-ar="المشكلة التي نحلها" data-en="The Problem We Solve">المشكلة التي نحلها</h2>
+    <div class="problem-grid fade-in">
+      <div class="problem-card">
+        <div class="problem-icon">📊</div>
+        <div class="problem-text" data-ar="بيانات كثيرة لكنها غير منظمة" data-en="Large amounts of data without proper organization">بيانات كثيرة لكنها غير منظمة</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">📁</div>
+        <div class="problem-text" data-ar="ملفات Excel متفرقة وأنظمة غير مترابطة" data-en="Scattered Excel files and disconnected systems">ملفات Excel متفرقة وأنظمة غير مترابطة</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🎯</div>
+        <div class="problem-text" data-ar="قرارات لا تعتمد على مؤشرات واضحة" data-en="Decisions made without clear performance indicators">قرارات لا تعتمد على مؤشرات واضحة</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">📉</div>
+        <div class="problem-text" data-ar="ضعف في تحليل العملاء والمبيعات" data-en="Weak customer and sales analysis">ضعف في تحليل العملاء والمبيعات</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">⏱️</div>
+        <div class="problem-text" data-ar="صعوبة في متابعة الأداء والتكاليف" data-en="Difficulty tracking performance and costs">صعوبة في متابعة الأداء والتكاليف</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🔒</div>
+        <div class="problem-text" data-ar="مخاطر في الخصوصية والامتثال" data-en="Privacy and compliance risks">مخاطر في الخصوصية والامتثال</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SOLUTION ===== -->
+<section id="solution">
+  <div class="container">
+    <span class="section-label" data-ar="الحل" data-en="Our Solution">الحل</span>
+    <h2 class="section-title" data-ar="حلول عملية لتحويل البيانات إلى قيمة" data-en="Practical Solutions to Turn Data into Value">حلول عملية لتحويل البيانات إلى قيمة</h2>
+    <div class="solution-layout fade-in">
+      <div>
+        <p class="section-subtitle" style="margin-bottom:28px;" data-ar="نساعد الشركات على تحويل البيانات المتفرقة إلى لوحات مؤشرات، تقارير ذكية، تحليلات قطاعية، وأدوات ذكاء اصطناعي تدعم الإدارة في اتخاذ قرارات أسرع وأكثر دقة." data-en="We help companies turn scattered data into dashboards, smart reports, sector-based analytics, and AI tools that support faster and more accurate decision-making.">
+          نساعد الشركات على تحويل البيانات المتفرقة إلى لوحات مؤشرات، تقارير ذكية، تحليلات قطاعية، وأدوات ذكاء اصطناعي تدعم الإدارة في اتخاذ قرارات أسرع وأكثر دقة.
+        </p>
+        <div class="solution-points">
+          <div class="solution-point" data-ar="تنظيم وتجميع البيانات" data-en="Organizing and integrating data">تنظيم وتجميع البيانات</div>
+          <div class="solution-point" data-ar="بناء لوحات مؤشرات للإدارة" data-en="Building management dashboards">بناء لوحات مؤشرات للإدارة</div>
+          <div class="solution-point" data-ar="تحليل العملاء والمبيعات" data-en="Analyzing customers and sales">تحليل العملاء والمبيعات</div>
+          <div class="solution-point" data-ar="أتمتة التقارير والمهام المتكررة" data-en="Automating reports and repetitive tasks">أتمتة التقارير والمهام المتكررة</div>
+          <div class="solution-point" data-ar="تحسين القرارات التشغيلية والتجارية" data-en="Improving operational and commercial decisions">تحسين القرارات التشغيلية والتجارية</div>
+        </div>
+      </div>
+      <div class="solution-visual">
+        <div class="solution-metric">
+          <span class="solution-metric-label" data-ar="كفاءة اتخاذ القرار" data-en="Decision-Making Efficiency">كفاءة اتخاذ القرار</span>
+          <span class="solution-metric-value">+65%</span>
+        </div>
+        <div class="solution-metric">
+          <span class="solution-metric-label" data-ar="تقليل وقت التقارير" data-en="Reporting Time Reduced">تقليل وقت التقارير</span>
+          <span class="solution-metric-value">-80%</span>
+        </div>
+        <div class="solution-metric">
+          <span class="solution-metric-label" data-ar="دقة تحليل البيانات" data-en="Data Analysis Accuracy">دقة تحليل البيانات</span>
+          <span class="solution-metric-value">98%</span>
+        </div>
+        <div class="solution-metric">
+          <span class="solution-metric-label" data-ar="تحسين الإيرادات" data-en="Revenue Improvement">تحسين الإيرادات</span>
+          <span class="solution-metric-value">+30%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SERVICES ===== -->
+<section id="services">
+  <div class="container">
+    <span class="section-label" data-ar="ما نقدمه" data-en="What We Offer">ما نقدمه</span>
+    <h2 class="section-title" data-ar="خدمات الشركة" data-en="Our Services">خدمات الشركة</h2>
+    <div class="cards-grid fade-in">
+      <div class="service-card">
+        <span class="service-card-icon">🏛️</span>
+        <div class="service-card-title" data-ar="حوكمة البيانات والامتثال الرقمي" data-en="Data Governance and Digital Compliance">حوكمة البيانات والامتثال الرقمي</div>
+      </div>
+      <div class="service-card">
+        <span class="service-card-icon">📈</span>
+        <div class="service-card-title" data-ar="ذكاء الأعمال ولوحات المؤشرات" data-en="Business Intelligence and Dashboards">ذكاء الأعمال ولوحات المؤشرات</div>
+      </div>
+      <div class="service-card">
+        <span class="service-card-icon">🛒</span>
+        <div class="service-card-title" data-ar="تحليل بيانات العملاء والمبيعات" data-en="Customer and Sales Data Analytics">تحليل بيانات العملاء والمبيعات</div>
+      </div>
+      <div class="service-card">
+        <span class="service-card-icon">🌐</span>
+        <div class="service-card-title" data-ar="حلول بيانات التجارة الإلكترونية" data-en="E-commerce Data Solutions">حلول بيانات التجارة الإلكترونية</div>
+      </div>
+      <div class="service-card">
+        <span class="service-card-icon">🏢</span>
+        <div class="service-card-title" data-ar="حلول بيانات العقار وإدارة الأملاك" data-en="Real Estate and Property Management Data">حلول بيانات العقار وإدارة الأملاك</div>
+      </div>
+      <div class="service-card">
+        <span class="service-card-icon">🏗️</span>
+        <div class="service-card-title" data-ar="حلول بيانات المقاولات والمشروعات" data-en="Construction and Project Data Solutions">حلول بيانات المقاولات والمشروعات</div>
+      </div>
+      <div class="service-card">
+        <span class="service-card-icon">👥</span>
+        <div class="service-card-title" data-ar="تحليل بيانات الموارد البشرية" data-en="HR Data Analytics">تحليل بيانات الموارد البشرية</div>
+      </div>
+      <div class="service-card">
+        <span class="service-card-icon">🤖</span>
+        <div class="service-card-title" data-ar="الأتمتة بالذكاء الاصطناعي" data-en="AI Automation">الأتمتة بالذكاء الاصطناعي</div>
+      </div>
+      <div class="service-card">
+        <span class="service-card-icon">🎓</span>
+        <div class="service-card-title" data-ar="التدريب وبناء القدرات" data-en="Training and Capacity Building">التدريب وبناء القدرات</div>
+      </div>
+      <div class="service-card">
+        <span class="service-card-icon">⚖️</span>
+        <div class="service-card-title" data-ar="تحليل العقود والبيانات القانونية" data-en="Contract and Legal Data Analytics">تحليل العقود والبيانات القانونية</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTORS ===== -->
+<section id="sectors">
+  <div class="container">
+    <span class="section-label" data-ar="من نخدم" data-en="Who We Serve">من نخدم</span>
+    <h2 class="section-title" data-ar="القطاعات التي نخدمها" data-en="Target Sectors">القطاعات التي نخدمها</h2>
+    <div class="sectors-grid fade-in">
+      <div class="sector-card"><span class="sector-icon">🛒</span><span data-ar="التجارة الإلكترونية" data-en="E-commerce">التجارة الإلكترونية</span></div>
+      <div class="sector-card"><span class="sector-icon">🏢</span><span data-ar="الشركات التجارية" data-en="Commercial Companies">الشركات التجارية</span></div>
+      <div class="sector-card"><span class="sector-icon">🏠</span><span data-ar="العقار وإدارة الأملاك" data-en="Real Estate & Property">العقار وإدارة الأملاك</span></div>
+      <div class="sector-card"><span class="sector-icon">🏗️</span><span data-ar="المقاولات والمشروعات" data-en="Construction & Projects">المقاولات والمشروعات</span></div>
+      <div class="sector-card"><span class="sector-icon">👥</span><span data-ar="الموارد البشرية" data-en="Human Resources">الموارد البشرية</span></div>
+      <div class="sector-card"><span class="sector-icon">🏥</span><span data-ar="الصحة والعيادات" data-en="Healthcare & Clinics">الصحة والعيادات</span></div>
+      <div class="sector-card"><span class="sector-icon">🎓</span><span data-ar="التعليم والتدريب" data-en="Education & Training">التعليم والتدريب</span></div>
+      <div class="sector-card"><span class="sector-icon">✈️</span><span data-ar="السياحة والضيافة" data-en="Tourism & Hospitality">السياحة والضيافة</span></div>
+      <div class="sector-card"><span class="sector-icon">☕</span><span data-ar="المطاعم والكافيهات" data-en="Restaurants & Cafés">المطاعم والكافيهات</span></div>
+      <div class="sector-card"><span class="sector-icon">🚚</span><span data-ar="اللوجستيات وسلاسل الإمداد" data-en="Logistics & Supply Chains">اللوجستيات وسلاسل الإمداد</span></div>
+      <div class="sector-card"><span class="sector-icon">🏭</span><span data-ar="الصناعة والتشغيل" data-en="Manufacturing & Operations">الصناعة والتشغيل</span></div>
+      <div class="sector-card"><span class="sector-icon">💰</span><span data-ar="الخدمات المالية والمحاسبية" data-en="Financial & Accounting">الخدمات المالية والمحاسبية</span></div>
+      <div class="sector-card"><span class="sector-icon">⚖️</span><span data-ar="القطاع القانوني" data-en="Legal Sector">القطاع القانوني</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BENEFITS ===== -->
+<section id="benefits">
+  <div class="container">
+    <span class="section-label" data-ar="القيمة المضافة" data-en="Added Value">القيمة المضافة</span>
+    <h2 class="section-title" data-ar="ما الذي يحصل عليه العميل؟" data-en="What Does the Client Gain?">ما الذي يحصل عليه العميل؟</h2>
+    <div class="benefits-grid fade-in">
+      <div class="benefit-card"><span class="benefit-icon">💹</span><div class="benefit-text" data-ar="زيادة الإيرادات" data-en="Increase Revenue">زيادة الإيرادات</div></div>
+      <div class="benefit-card"><span class="benefit-icon">💰</span><div class="benefit-text" data-ar="تقليل التكاليف" data-en="Reduce Costs">تقليل التكاليف</div></div>
+      <div class="benefit-card"><span class="benefit-icon">⚙️</span><div class="benefit-text" data-ar="تحسين التشغيل" data-en="Improve Operations">تحسين التشغيل</div></div>
+      <div class="benefit-card"><span class="benefit-icon">🎯</span><div class="benefit-text" data-ar="فهم العملاء بعمق" data-en="Understand Customers Better">فهم العملاء بعمق</div></div>
+      <div class="benefit-card"><span class="benefit-icon">⚡</span><div class="benefit-text" data-ar="تسريع اتخاذ القرار" data-en="Accelerate Decision-Making">تسريع اتخاذ القرار</div></div>
+      <div class="benefit-card"><span class="benefit-icon">🛡️</span><div class="benefit-text" data-ar="تقليل المخاطر" data-en="Reduce Risks">تقليل المخاطر</div></div>
+      <div class="benefit-card"><span class="benefit-icon">✅</span><div class="benefit-text" data-ar="تحسين الامتثال" data-en="Improve Compliance">تحسين الامتثال</div></div>
+      <div class="benefit-card"><span class="benefit-icon">🚀</span><div class="benefit-text" data-ar="رفع إنتاجية الموظفين" data-en="Enhance Productivity">رفع إنتاجية الموظفين</div></div>
+      <div class="benefit-card"><span class="benefit-icon">📊</span><div class="benefit-text" data-ar="تحويل البيانات إلى مؤشرات واضحة" data-en="Turn Data into Clear Indicators">تحويل البيانات إلى مؤشرات واضحة</div></div>
+      <div class="benefit-card"><span class="benefit-icon">🔍</span><div class="benefit-text" data-ar="اكتشاف فرص النمو" data-en="Identify Growth Opportunities">اكتشاف فرص النمو</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW WE WORK ===== -->
+<section id="process">
+  <div class="container">
+    <span class="section-label" data-ar="المنهجية" data-en="Methodology">المنهجية</span>
+    <h2 class="section-title" data-ar="طريقة العمل" data-en="How We Work">طريقة العمل</h2>
+    <div class="process-steps fade-in">
+      <div class="process-step">
+        <div class="step-num">1</div>
+        <div class="step-title" data-ar="تشخيص البيانات" data-en="Data Assessment">تشخيص البيانات</div>
+        <div class="step-text" data-ar="فهم وضع البيانات الحالي داخل الشركة" data-en="Understanding the current data situation inside the company">فهم وضع البيانات الحالي داخل الشركة</div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">2</div>
+        <div class="step-title" data-ar="تنظيم وتجميع البيانات" data-en="Data Organization">تنظيم وتجميع البيانات</div>
+        <div class="step-text" data-ar="ترتيب البيانات وربط مصادرها الأساسية" data-en="Structuring data and connecting key sources">ترتيب البيانات وربط مصادرها الأساسية</div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">3</div>
+        <div class="step-title" data-ar="بناء لوحة مؤشرات" data-en="Dashboard Development">بناء لوحة مؤشرات</div>
+        <div class="step-text" data-ar="تصميم Dashboard واضح للإدارة" data-en="Designing clear dashboards for management">تصميم Dashboard واضح للإدارة</div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">4</div>
+        <div class="step-title" data-ar="تقديم تقرير تنفيذي" data-en="Executive Reporting">تقديم تقرير تنفيذي</div>
+        <div class="step-text" data-ar="استخراج نتائج عملية وتوصيات قابلة للتنفيذ" data-en="Delivering practical insights and actionable recommendations">استخراج نتائج عملية وتوصيات قابلة للتنفيذ</div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">5</div>
+        <div class="step-title" data-ar="أتمتة وتحسين مستمر" data-en="Automation & Improvement">أتمتة وتحسين مستمر</div>
+        <div class="step-text" data-ar="تحويل التقارير المتكررة إلى عمليات ذكية ومستمرة" data-en="Turning recurring reports into smart continuous processes">تحويل التقارير المتكررة إلى عمليات ذكية ومستمرة</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BUSINESS MODEL ===== -->
+<section id="model">
+  <div class="container">
+    <span class="section-label" data-ar="نموذج العمل" data-en="Business Model">نموذج العمل</span>
+    <h2 class="section-title" data-ar="نموذج العمل" data-en="Business Model">نموذج العمل</h2>
+    <div class="model-grid fade-in">
+      <div class="model-card">
+        <div class="model-card-title" data-ar="مشروعات قصيرة" data-en="Short-term Projects">مشروعات قصيرة</div>
+        <div class="model-card-text" data-ar="تشخيص وتنظيم البيانات لحل مشكلات محددة وسريعة." data-en="Data assessment and organization to solve specific, quick issues.">تشخيص وتنظيم البيانات لحل مشكلات محددة وسريعة.</div>
+      </div>
+      <div class="model-card">
+        <div class="model-card-title" data-ar="اشتراكات شهرية" data-en="Monthly Subscriptions">اشتراكات شهرية</div>
+        <div class="model-card-text" data-ar="لوحات مؤشرات وتقارير دورية لدعم اتخاذ القرار المستمر." data-en="Dashboards and periodic reports to support ongoing decision-making.">لوحات مؤشرات وتقارير دورية لدعم اتخاذ القرار المستمر.</div>
+      </div>
+      <div class="model-card">
+        <div class="model-card-title" data-ar="تدريب وورش عمل" data-en="Training & Workshops">تدريب وورش عمل</div>
+        <div class="model-card-text" data-ar="تمكين الموظفين والإدارات من التعامل مع البيانات باحتراف." data-en="Empowering teams and departments to work professionally with data.">تمكين الموظفين والإدارات من التعامل مع البيانات باحتراف.</div>
+      </div>
+      <div class="model-card">
+        <div class="model-card-title" data-ar="منتجات رقمية جاهزة" data-en="Ready Digital Products">منتجات رقمية جاهزة</div>
+        <div class="model-card-text" data-ar="قوالب تحليلية وحلول جاهزة للاستخدام الفوري." data-en="Analytical templates and ready-to-use solutions.">قوالب تحليلية وحلول جاهزة للاستخدام الفوري.</div>
+      </div>
+      <div class="model-card">
+        <div class="model-card-title" data-ar="منصات ذكاء اصطناعي" data-en="AI Platforms">منصات ذكاء اصطناعي</div>
+        <div class="model-card-text" data-ar="حلول مستقبلية مبنية على احتياجات السوق الحقيقية." data-en="Future solutions built on real market needs.">حلول مستقبلية مبنية على احتياجات السوق الحقيقية.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SAUDI PARTNERSHIP ===== -->
+<section id="partnership">
+  <div class="container">
+    <span class="section-label" data-ar="فرصة استراتيجية" data-en="Strategic Opportunity">فرصة استراتيجية</span>
+    <h2 class="section-title" data-ar="الشراكة السعودية" data-en="Saudi Partnership">الشراكة السعودية</h2>
+    <div class="partnership-layout fade-in">
+      <div>
+        <p class="section-subtitle" style="margin-bottom:28px;" data-ar="نبحث عن شريك سعودي استراتيجي للمساعدة في دخول السوق المحلي، بناء العلاقات، الوصول إلى العملاء، وتأسيس حضور مهني موثوق داخل المملكة." data-en="We are seeking a strategic Saudi partner to support local market entry, build business relationships, reach potential clients, and establish a trusted professional presence in the Kingdom.">
+          نبحث عن شريك سعودي استراتيجي للمساعدة في دخول السوق المحلي، بناء العلاقات، الوصول إلى العملاء، وتأسيس حضور مهني موثوق داخل المملكة.
+        </p>
+        <div class="partnership-points">
+          <div class="partner-point"><div class="partner-point-dot"></div><span data-ar="فتح العلاقات التجارية" data-en="Opening business relationships">فتح العلاقات التجارية</span></div>
+          <div class="partner-point"><div class="partner-point-dot"></div><span data-ar="الوصول إلى العملاء المحتملين" data-en="Reaching potential clients">الوصول إلى العملاء المحتملين</span></div>
+          <div class="partner-point"><div class="partner-point-dot"></div><span data-ar="دعم التأسيس والحضور المحلي" data-en="Supporting local establishment and presence">دعم التأسيس والحضور المحلي</span></div>
+          <div class="partner-point"><div class="partner-point-dot"></div><span data-ar="المشاركة في بناء الثقة داخل السوق" data-en="Building market trust">المشاركة في بناء الثقة داخل السوق</span></div>
+          <div class="partner-point"><div class="partner-point-dot"></div><span data-ar="تطوير خدمات مناسبة للسوق السعودي" data-en="Developing services tailored to the Saudi market">تطوير خدمات مناسبة للسوق السعودي</span></div>
+        </div>
+        <div style="margin-top:28px;">
+          <a href="mailto:dr.ah.m.abdelsalam@gmail.com" class="btn-primary" data-ar="تواصل للشراكة" data-en="Contact for Partnership">تواصل للشراكة</a>
+        </div>
+      </div>
+      <div style="background:linear-gradient(135deg,var(--green-dark),var(--green-mid));border-radius:20px;padding:40px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:20px;">
+        <div style="font-size:64px;">🤝</div>
+        <div style="color:var(--gold);font-size:22px;font-weight:900;" data-ar="شريك استراتيجي في السوق السعودي" data-en="Strategic Partner in the Saudi Market">شريك استراتيجي في السوق السعودي</div>
+        <div style="color:rgba(255,255,255,0.7);font-size:14px;max-width:260px;line-height:1.7;" data-ar="انضم إلينا في رحلة التحول الرقمي للشركات السعودية" data-en="Join us in the digital transformation journey for Saudi companies">انضم إلينا في رحلة التحول الرقمي للشركات السعودية</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== REGISTER AS EXPERT ===== -->
+<section id="register">
+  <div class="container">
+    <span class="section-label" data-ar="انضم إلى شبكتنا" data-en="Join Our Network">انضم إلى شبكتنا</span>
+    <h2 class="section-title" data-ar="سجّل كخبير معنا" data-en="Register as an Expert">سجّل كخبير معنا</h2>
+    <p class="section-subtitle" data-ar="هل تمتلك خبرة متخصصة يمكن أن تضيف قيمة لعملائنا؟ نرحب بانضمام الخبراء والمستشارين إلى شبكة Afaq Data Intelligence لدعم مشروعات البيانات والذكاء الاصطناعي في مختلف القطاعات." data-en="Do you have specialized expertise that can add value to our clients? We welcome experts and consultants to join the Afaq Data Intelligence expert network across multiple sectors.">
+      هل تمتلك خبرة متخصصة يمكن أن تضيف قيمة لعملائنا؟ نرحب بانضمام الخبراء والمستشارين إلى شبكة Afaq Data Intelligence لدعم مشروعات البيانات والذكاء الاصطناعي في مختلف القطاعات.
+    </p>
+    <div class="register-grid fade-in">
+      <div class="register-areas">
+        <div class="register-areas-title" data-ar="المجالات المطلوبة" data-en="Required Areas of Expertise">المجالات المطلوبة</div>
+        <div class="register-area-item" data-ar="البيانات وتحليل الأعمال" data-en="Data and business analytics">البيانات وتحليل الأعمال</div>
+        <div class="register-area-item" data-ar="الذكاء الاصطناعي" data-en="Artificial intelligence">الذكاء الاصطناعي</div>
+        <div class="register-area-item" data-ar="ذكاء الأعمال ولوحات المؤشرات" data-en="Business intelligence and dashboards">ذكاء الأعمال ولوحات المؤشرات</div>
+        <div class="register-area-item" data-ar="التحول الرقمي" data-en="Digital transformation">التحول الرقمي</div>
+        <div class="register-area-item" data-ar="الأمن السيبراني" data-en="Cybersecurity">الأمن السيبراني</div>
+        <div class="register-area-item" data-ar="إدارة المشروعات" data-en="Project management">إدارة المشروعات</div>
+        <div class="register-area-item" data-ar="العقار وإدارة الأملاك" data-en="Real estate and property management">العقار وإدارة الأملاك</div>
+        <div class="register-area-item" data-ar="الموارد البشرية" data-en="Human resources">الموارد البشرية</div>
+        <div class="register-area-item" data-ar="التسويق والمبيعات" data-en="Marketing and sales">التسويق والمبيعات</div>
+        <div class="register-area-item" data-ar="القانون والامتثال" data-en="Law and compliance">القانون والامتثال</div>
+        <div class="register-area-item" data-ar="التدريب وبناء القدرات" data-en="Training and capacity building">التدريب وبناء القدرات</div>
+      </div>
+      <div class="register-info">
+        <div class="register-fields">
+          <div class="register-fields-title" data-ar="أرسل بياناتك عبر البريد الإلكتروني" data-en="Send Your Details by Email">أرسل بياناتك عبر البريد الإلكتروني</div>
+          <div class="register-field-item" data-ar="الاسم الكامل" data-en="Full name">الاسم الكامل</div>
+          <div class="register-field-item" data-ar="مجال الخبرة" data-en="Area of expertise">مجال الخبرة</div>
+          <div class="register-field-item" data-ar="سنوات الخبرة" data-en="Years of experience">سنوات الخبرة</div>
+          <div class="register-field-item" data-ar="الدولة / المدينة" data-en="Country / City">الدولة / المدينة</div>
+          <div class="register-field-item" data-ar="السيرة الذاتية أو رابط LinkedIn" data-en="CV or LinkedIn profile">السيرة الذاتية أو رابط LinkedIn</div>
+          <div class="register-field-item" data-ar="أمثلة على الأعمال السابقة" data-en="Brief examples of previous work">أمثلة على الأعمال السابقة</div>
+        </div>
+        <div class="register-cta">
+          <a href="mailto:dr.ah.m.abdelsalam@gmail.com?subject=طلب%20التسجيل%20كخبير%20مع%20Afaq%20Data%20Intelligence" class="btn-primary" style="display:inline-block;font-size:16px;padding:16px 36px;" data-ar="سجّل كخبير معنا" data-en="Register as an Expert">سجّل كخبير معنا</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact">
+  <div class="container">
+    <span class="section-label" data-ar="ابدأ الآن" data-en="Get Started">ابدأ الآن</span>
+    <h2 class="section-title" data-ar="تواصل معنا" data-en="Contact Us" style="text-align:center;">تواصل معنا</h2>
+    <div class="contact-box fade-in">
+      <p style="font-size:17px;color:var(--text-muted);line-height:1.8;" data-ar="ابدأ بتحويل بيانات شركتك إلى قيمة عملية قابلة للقياس. تواصل معنا للحصول على تقييم أولي لاحتياجات شركتك وخطة تنفيذ مناسبة." data-en="Start transforming your company's data into measurable business value. Contact us to receive an initial assessment of your company's needs and a suitable implementation plan.">
+        ابدأ بتحويل بيانات شركتك إلى قيمة عملية قابلة للقياس. تواصل معنا للحصول على تقييم أولي لاحتياجات شركتك وخطة تنفيذ مناسبة.
+      </p>
+      <a href="mailto:dr.ah.m.abdelsalam@gmail.com" class="contact-email">📧 dr.ah.m.abdelsalam@gmail.com</a>
+      <br>
+      <a href="mailto:dr.ah.m.abdelsalam@gmail.com" class="btn-primary" style="font-size:16px;padding:16px 40px;" data-ar="تواصل معنا الآن" data-en="Contact Us Now">تواصل معنا الآن</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <span>جميع الحقوق محفوظة</span> © <span>Afaq Data Intelligence</span>
+  <br>
+  <small style="display:block;margin-top:6px;opacity:0.6;" data-ar="شركة مصرية سعودية متخصصة في حلول البيانات والذكاء الاصطناعي" data-en="Egyptian-Saudi company specialized in data and AI solutions">شركة مصرية سعودية متخصصة في حلول البيانات والذكاء الاصطناعي</small>
+</footer>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+// ---- LANGUAGE SWITCHING ----
+let currentLang = 'ar';
+
+function setLang(lang) {
+  currentLang = lang;
+  const body = document.body;
+  const html = document.documentElement;
+
+  if (lang === 'en') {
+    body.classList.add('en');
+    html.setAttribute('lang', 'en');
+    html.setAttribute('dir', 'ltr');
+    document.getElementById('btn-en').classList.add('active');
+    document.getElementById('btn-ar').classList.remove('active');
+  } else {
+    body.classList.remove('en');
+    html.setAttribute('lang', 'ar');
+    html.setAttribute('dir', 'rtl');
+    document.getElementById('btn-ar').classList.add('active');
+    document.getElementById('btn-en').classList.remove('active');
+  }
+
+  // Update all translatable text nodes
+  document.querySelectorAll('[data-ar][data-en]').forEach(el => {
+    const val = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-ar');
+    if (val) {
+      if (el.tagName === 'H1' || el.classList.contains('hero-title')) {
+        el.innerHTML = val;
+      } else if (el.children.length === 0) {
+        el.textContent = val;
+      } else {
+        // For elements with children like spans, use innerHTML only if it contains HTML
+        if (val.includes('<')) {
+          el.innerHTML = val;
+        } else {
+          el.textContent = val;
+        }
+      }
+    }
+  });
+
+  // Update footer
+  const footerSmall = document.querySelector('footer small');
+  if (footerSmall) {
+    footerSmall.textContent = lang === 'en'
+      ? 'Egyptian-Saudi company specialized in data and AI solutions'
+      : 'شركة مصرية سعودية متخصصة في حلول البيانات والذكاء الاصطناعي';
+  }
+  const footerFirst = document.querySelector('footer span:first-child');
+  if (footerFirst) {
+    footerFirst.textContent = lang === 'en' ? 'All Rights Reserved' : 'جميع الحقوق محفوظة';
+  }
+}
+
+// ---- MOBILE MENU ----
+let menuOpen = false;
+
+function toggleMobileMenu() {
+  menuOpen = !menuOpen;
+  const nav = document.getElementById('mobile-nav');
+  nav.classList.toggle('open', menuOpen);
+}
+
+function closeMobileMenu() {
+  menuOpen = false;
+  document.getElementById('mobile-nav').classList.remove('open');
+}
+
+// Close mobile menu on resize
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 900) closeMobileMenu();
+});
+
+// ---- SCROLL ANIMATION ----
+const fadeEls = document.querySelectorAll('.fade-in');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+fadeEls.forEach(el => observer.observe(el));
+
+// ---- SMOOTH SCROLL OFFSET (for fixed nav) ----
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', e => {
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      const offset = 72;
+      const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
+});
+</script>
+</body>
+</html>
